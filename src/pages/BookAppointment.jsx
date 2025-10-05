@@ -33,10 +33,10 @@ const BookAppointment = () => {
   });
   const silenceTimer = useRef(null);
 
-  // Original form submit
+  // **Form submit (Review Appointment)** – restores previous behavior
   const handleSubmit = (e) => {
     e.preventDefault();
-    setShowModal(true);
+    setShowModal(true); // open modal for review
   };
 
   const confirmBooking = async (dataToSend = null) => {
@@ -65,7 +65,7 @@ const BookAppointment = () => {
 
       if (result.success) {
         toast.success(
-          `Appointment #${result.data.appointmentNumber} booked for ${result.data.patientName}`,
+          `✅ ${result.message}\nAppointment #${result.data.appointmentNumber} booked for ${result.data.patientName}`,
           { duration: 10000 }
         );
       } else {
@@ -86,10 +86,7 @@ const BookAppointment = () => {
 
   // Initialize Speech Recognition
   useEffect(() => {
-    if (!("webkitSpeechRecognition" in window)) {
-      alert("Your browser does not support Speech Recognition. Use Chrome!");
-      return;
-    }
+    if (!("webkitSpeechRecognition" in window)) return;
 
     const recog = new window.webkitSpeechRecognition();
     recog.continuous = false;
@@ -101,7 +98,6 @@ const BookAppointment = () => {
         transcript += event.results[i][0].transcript + " ";
       }
 
-      // Save to corresponding field
       if (voiceStep === 1) setVoiceOutput((prev) => ({ ...prev, patientName: transcript.trim() }));
       if (voiceStep === 2) setVoiceOutput((prev) => ({ ...prev, patientAge: transcript.trim() }));
       if (voiceStep === 3) setVoiceOutput((prev) => ({ ...prev, patientProblem: transcript.trim() }));
@@ -119,7 +115,6 @@ const BookAppointment = () => {
     recog.onend = () => {
       setIsListening(false);
       clearTimeout(silenceTimer.current);
-      // Move to next step automatically
       if (voiceStep >= 1 && voiceStep < 3) setVoiceStep((prev) => prev + 1);
     };
 
@@ -153,7 +148,9 @@ const BookAppointment = () => {
   const translateToIndianEnglish = async (text, sourceLang) => {
     if (!text || sourceLang === "en") return text;
     try {
-      const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLang}|en`;
+      const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(
+        text
+      )}&langpair=${sourceLang}|en`;
       const res = await fetch(url);
       const data = await res.json();
       return data.responseData.translatedText || "[Translation Error]";
@@ -233,6 +230,46 @@ const BookAppointment = () => {
         </form>
       </div>
 
+      {/* Confirmation Modal for Review Appointment */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-white p-6 rounded-2xl shadow-xl w-full max-w-sm text-center animate-scaleIn">
+            <h3 className="text-2xl font-semibold mb-4 text-blue-700">
+              Confirm Appointment
+            </h3>
+            <div className="text-gray-700 space-y-1 mb-4">
+              <p><strong>Name:</strong> {formData.patientName}</p>
+              <p><strong>Age:</strong> {formData.patientAge}</p>
+              <p><strong>Problem:</strong> {formData.patientProblem || "Not specified"}</p>
+            </div>
+            <div className="flex justify-center gap-3">
+              <button
+                onClick={() => confirmBooking()}
+                disabled={loading}
+                className={`px-5 py-2 rounded-lg text-white font-medium transition-all ${
+                  loading ? "bg-green-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
+                }`}
+              >
+                {loading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    Booking...
+                  </span>
+                ) : (
+                  "Confirm"
+                )}
+              </button>
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-5 py-2 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition-all"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Voice Booking Modal */}
       {voiceModal && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50 animate-fadeIn">
@@ -258,7 +295,6 @@ const BookAppointment = () => {
                   <option value="ta">Tamil</option>
                   <option value="te">Telugu</option>
                   <option value="bn">Bengali</option>
-                  {/* Add more as needed */}
                 </select>
                 <button
                   onClick={() => setVoiceStep(1)}
@@ -291,11 +327,23 @@ const BookAppointment = () => {
                 <div className="flex gap-4 mt-4 justify-between text-left">
                   <div className="w-1/2 p-3 border rounded-xl bg-gray-50">
                     <h4 className="font-semibold text-gray-700">Your Speech</h4>
-                    <p>{voiceStep === 1 ? voiceOutput.patientName : voiceStep === 2 ? voiceOutput.patientAge : voiceOutput.patientProblem}</p>
+                    <p>
+                      {voiceStep === 1
+                        ? voiceOutput.patientName
+                        : voiceStep === 2
+                        ? voiceOutput.patientAge
+                        : voiceOutput.patientProblem}
+                    </p>
                   </div>
                   <div className="w-1/2 p-3 border rounded-xl bg-gray-50">
                     <h4 className="font-semibold text-gray-700">Indian English</h4>
-                    <p>{voiceStep === 1 ? voiceTranslated.patientName : voiceStep === 2 ? voiceTranslated.patientAge : voiceTranslated.patientProblem}</p>
+                    <p>
+                      {voiceStep === 1
+                        ? voiceTranslated.patientName
+                        : voiceStep === 2
+                        ? voiceTranslated.patientAge
+                        : voiceTranslated.patientProblem}
+                    </p>
                   </div>
                 </div>
 
