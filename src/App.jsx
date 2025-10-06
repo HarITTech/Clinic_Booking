@@ -5,6 +5,7 @@ import BookAppointment from "./pages/BookAppointment";
 import ProtectedRoute from "./router/ProtectedRoute";
 import ScrollToTop from "./components/ScrollToTop";
 import SpeechTranslator from "./pages/SpeechTranslator";
+import VoiceBooking from "./pages/VoiceBooking";
 // import Navbar from "./components/Navbar";
 
 function App() {
@@ -26,9 +27,14 @@ function App() {
         <Route path="/speech"
           element={
             <ProtectedRoute>
-              {/* <Navbar /> */}
-              {/* <BookAppointment /> */}
               <SpeechTranslator />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/voice-booking"
+          element={
+            <ProtectedRoute>
+              <VoiceBooking />
             </ProtectedRoute>
           }
         />

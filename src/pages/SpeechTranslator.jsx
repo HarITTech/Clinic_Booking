@@ -154,5 +154,5 @@ const SpeechTranslator = () => {
     </div>
   );
 };
-
+ 
 export default SpeechTranslator;
