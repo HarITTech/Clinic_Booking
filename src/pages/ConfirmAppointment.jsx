@@ -16,18 +16,18 @@ const ConfirmAppointment = ({ formData, onConfirm, onCancel, loading }) => {
 
         <div className="flex justify-center gap-4">
           <button
+            onClick={onCancel}
+            className="flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+          >
+            <XCircle className="w-4 h-4" /> Cancel
+          </button>
+          <button
             onClick={onConfirm}
             disabled={loading}
             className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
           >
             <CheckCircle className="w-4 h-4" />
             {loading ? "Confirming..." : "Confirm"}
-          </button>
-          <button
-            onClick={onCancel}
-            className="flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
-          >
-            <XCircle className="w-4 h-4" /> Cancel
           </button>
         </div>
       </div>

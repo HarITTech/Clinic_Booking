@@ -405,11 +405,11 @@ const VoiceBooking = () => {
                 <h2 className="text-xl font-semibold text-green-600 mb-3">
                   {successPopup.message}
                 </h2>
-                <p className="mb-2 rounded-lg flex items-center justify-center text-[#005399] text-xl">
-                  <strong>Appointment No:</strong> #{successPopup.appointmentNumber}
+                <p className="mb-2 rounded-lg flex items-center justify-center text-[#005399] text-lg gap-[2px]">
+                  Appointment No: <p className="rounded-md flex items-center justify-center bg-gradient-to-b from-[#eaf6ff] to-[#dff4ff] text-[#005399] font-bold text-[20px] shadow-sm py-1 px-2 ">#{successPopup.appointmentNumber}</p>
                 </p>
                 <p className="mb-1 text-[#005399] text-lg">
-                  <strong>Patient:</strong> {successPopup.patientName}
+                  Patient: <strong>{successPopup.patientName}</strong>
                 </p>
 
                 <div className="flex justify-center gap-4 mt-4">

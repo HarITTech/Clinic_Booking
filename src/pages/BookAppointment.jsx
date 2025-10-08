@@ -176,11 +176,11 @@ const BookAppointment = () => {
                 <h2 className="text-xl font-semibold text-green-600 mb-3">
                   {successPopup.message}
                 </h2>
-                <p className="mb-2 rounded-lg flex items-center justify-center text-[#005399] text-xl">
-                  <strong>Appointment No:</strong> #{successPopup.appointmentNumber}
+                <p className="mb-2 rounded-lg flex items-center justify-center text-[#005399] text-lg gap-[2px]">
+                  Appointment No: <p className="rounded-md flex items-center justify-center bg-gradient-to-b from-[#eaf6ff] to-[#dff4ff] text-[#005399] font-bold text-[20px] shadow-sm py-1 px-2 ">#{successPopup.appointmentNumber}</p>
                 </p>
                 <p className="mb-1 text-[#005399] text-lg">
-                  <strong>Patient:</strong> {successPopup.patientName}
+                  Patient: <strong>{successPopup.patientName}</strong>
                 </p>
                 {/* <p className="text-gray-700 mb-1">
                   <strong>Age:</strong> {successPopup.patientAge}
@@ -188,17 +188,18 @@ const BookAppointment = () => {
 
                 <div className="flex justify-center gap-4 mt-4">
                   <button
-                    onClick={handlePopupClose}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-                  >
-                    OK
-                  </button>
-                  <button
                     onClick={() => setSuccessPopup(null)}
                     className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400 transition"
                   >
                     Close
                   </button>
+                  <button
+                    onClick={handlePopupClose}
+                    className="bg-[#005399] text-white px-4 py-2 rounded-lg hover:bg-[#003a69] transition"
+                  >
+                    OK
+                  </button>
+
                 </div>
               </div>
             </div>
