@@ -414,16 +414,17 @@ const VoiceBooking = () => {
 
                 <div className="flex justify-center gap-4 mt-4">
                   <button
-                    onClick={handlePopupClose}
-                    className="bg-[#005399] text-white px-4 py-2 rounded-lg hover:bg-[#004176] transition"
-                  >
-                    OK
-                  </button>
-                  <button
                     onClick={() => setSuccessPopup(null)}
                     className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-400 transition"
                   >
                     Close
+                  </button>
+                  
+                  <button
+                    onClick={handlePopupClose}
+                    className="bg-[#005399] text-white px-4 py-2 rounded-lg hover:bg-[#004176] transition"
+                  >
+                    OK
                   </button>
                 </div>
               </div>
